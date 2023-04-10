@@ -25,6 +25,39 @@ const notifyOptions = {
   cssAnimationStyle: 'from-bottom',
 };
 
+const confettiConfig = {
+  particleCount: 100,
+  angle: 45,
+  spread: 60,
+  startVelocity: 30,
+  decay: 0.92,
+  gravity: 1,
+  colors: [
+    '#f44336',
+    '#e91e63',
+    '#9c27b0',
+    '#673ab7',
+    '#3f51b5',
+    '#2196f3',
+    '#03a9f4',
+    '#00bcd4',
+    '#009688',
+    '#4CAF50',
+    '#8BC34A',
+    '#CDDC39',
+    '#FFEB3B',
+    '#FFC107',
+    '#FF9800',
+    '#FF5722',
+    '#795548',
+  ],
+  shapes: ['circle', 'square'],
+  emojis: ['🌈', '🦄'],
+  zIndex: 10000,
+};
+
+const jsConfetti = new JSConfetti();
+
 const options = {
   enableTime: true,
   time_24hr: true,
@@ -46,7 +79,8 @@ const options = {
             const deltaTime = startTime - currentTime;
             if (deltaTime < 0) {
               clearInterval(timerId);
-              Notify.success('Hurrraaaay', notifyOptions);
+              // Notify.success('Hurrraaaay', notifyOptions);
+              jsConfetti.addConfetti(confettiConfig);
               return;
             }
             const formatTime = convertMs(deltaTime);
