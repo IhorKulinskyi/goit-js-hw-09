@@ -70,10 +70,14 @@ const options = {
       updateClockFace(convertTimerValue);
       refs.startBtn.disabled = false;
 
-      refs.startBtn.addEventListener('click', () => {
+      const startTimerOnClick = () => {
         startTimer(selectedDates[0]);
         refs.startBtn.disabled = true;
-      });
+        refs.startBtn.removeEventListener('click', startTimerOnClick);
+      };
+
+      refs.startBtn.addEventListener('click', startTimerOnClick);
+      console.log('ready to start timer');
     } else {
       Notify.failure('Please choose a date in the future', notifyOptions);
     }
@@ -83,14 +87,16 @@ const options = {
 flatpickr(refs.dateInput, options);
 
 function startTimer(startTime) {
+  clearInterval(timerId);
+  console.log('timer is on');
   timerId = setInterval(() => {
     const currentTime = Date.now();
     const deltaTime = startTime - currentTime;
     const formatTime = convertMs(deltaTime);
     if (deltaTime < 0) {
       clearInterval(timerId);
-      Notify.success('Hurrraaaay', notifyOptions);
-      jsConfetti.addConfetti(confettiConfig);
+        Notify.success('Hurrraaaay', notifyOptions);
+        jsConfetti.addConfetti(confettiConfig);
       return;
     }
     updateClockFace(formatTime);
@@ -102,6 +108,7 @@ function updateClockFace({ days, hours, minutes, seconds }) {
   refs.hours.textContent = hours;
   refs.mins.textContent = minutes;
   refs.secs.textContent = seconds;
+  console.log('updating clockface');
 }
 
 function convertMs(ms) {
