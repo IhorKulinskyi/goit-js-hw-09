@@ -5,6 +5,8 @@ const refs = {
   };
 
   let timerId = null;
+
+  refs.stopBtn.disabled = true;
   
   refs.startBtn.addEventListener('click', changeColor);
   refs.stopBtn.addEventListener('click', stopChangeColor);
@@ -14,11 +16,13 @@ const refs = {
       refs.body.style.backgroundColor = getRandomHexColor();
     }, 1000);
     refs.startBtn.disabled = true;
+    refs.stopBtn.disabled = false;
   }
   
   function stopChangeColor() {
     clearInterval(timerId);
     refs.startBtn.disabled = false;
+    refs.stopBtn.disabled = true;
   }
   
   function getRandomHexColor() {

@@ -7,10 +7,6 @@ const refs = {
   amount: document.querySelector('[name*="amount"]'),
 };
 
-const notifyConfig = {
-  closeButton: true,
-};
-
 refs.form.addEventListener('submit', onSubmitForm);
 
 function onSubmitForm(e) {
@@ -22,21 +18,16 @@ function onSubmitForm(e) {
   let delayValue = firstDelay;
 
   for (let i = 1; i <= amount; i += 1) {
-    delayValue += step;
     createPromise(i, delayValue)
       .then(({ position, delay }) => {
-        Notify.success(
-          `✅ Fulfilled promise ${position} in ${delay}ms`,
-          notifyConfig
-        );
+        Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);
       })
       .catch(({ position, delay }) => {
-        Notify.failure(
-          `❌ Rejected promise ${position} in ${delay}ms`,
-          notifyConfig
-        );
+        Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`);
       });
+    delayValue += step;
   }
+  refs.form.reset();
 }
 
 function createPromise(position, delay) {
